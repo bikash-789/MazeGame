@@ -1,0 +1,46 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+.board {
+  width: 40rem;
+  height: 40rem;
+  position: relative;
+}
+
+.tile {
+  position: absolute;
+  width: 5rem;
+  border: 1px solid #ffba49;
+  height: 5rem;
+}
+
+.ball {
+  border-radius: 50%;
+  width: 5rem;
+  height: 5rem;
+  position: absolute;
+  background: linear-gradient(90deg, rgb(255, 110, 110), rgb(215, 166, 170));
+  z-index: 3;
+}
+
+.anim {
+  transition: all 0.4s;
+}
+
+.nav-keys {
+  margin-top: 2rem;
+  display: flex;
+  width: 30vw;
+  justify-content: space-between;
+  align-items: center;
+}
