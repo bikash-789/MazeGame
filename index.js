@@ -1,21 +1,20 @@
-const levels = [];
 const map = [
   [1, 0, 0, 0, 0, 0, 0, 0],
   [1, 1, 1, 0, 1, 1, 0, 0],
+  [1, 0, 1, 0, 0, 1, 0, 0],
+  [1, 0, 1, 1, 1, 1, 0, 0],
+  [1, 1, 1, 0, 0, 0, 1, 1],
+  [1, 1, 1, 0, 0, 1, 0, 0],
   [0, 0, 1, 0, 0, 1, 0, 0],
-  [0, 0, 1, 1, 1, 1, 0, 0],
-  [1, 1, 1, 0, 0, 1, 1, 1],
-  [0, 1, 0, 0, 0, 1, 0, 0],
-  [0, 0, 1, 0, 0, 1, 0, 0],
-  [0, 0, 1, 0, 0, 1, 1, 1],
+  [0, 0, 1, 1, 1, 1, 1, 1],
 ];
 let N;
 let userIsPlaying = false;
 
 const tile = (x, y, type) => {
   const t = document.createElement("div");
-  if (type === "floor") t.style.background = "#ffffff";
-  else t.style.background = "#000000";
+  if (type === "floor") t.style.background = "#FEEFE5";
+  else t.style.background = "#2A2B2A";
   t.classList.add("tile");
   t.style.left = x + "rem";
   t.style.top = y + "rem";
@@ -191,7 +190,7 @@ targetBall.ball.style.zIndex = 2;
 const checkWin = () => {
   const pos = newBall.get_position();
   if (pos[0] == pos[1] && pos[0] == 35 && userIsPlaying) {
-    alert("Congrats! You won the game");
+    setTimeout(() => alert("Congrats! You won the game"), 500);
   }
 };
 
@@ -231,17 +230,9 @@ function printSolution(sol) {
         if x, y is valid index for N*N maze */
 
 function isSafe(maze, x, y) {
-  // if (x, y outside maze) return false
   return x >= 0 && x < N && y >= 0 && y < N && maze[x][y] == 1;
 }
 
-/* This function solves the Maze problem using
-    Backtracking. It mainly uses solveMazeUtil()
-    to solve the problem. It returns false if no
-    path is possible, otherwise return true and
-    prints the path in the form of 1s. Please note
-    that there may be more than one solutions, this
-    function prints one of the feasible solutions.*/
 let sol = new Array(N);
 function solveMaze(maze) {
   for (let i = 0; i < N; i++) {
@@ -255,45 +246,28 @@ function solveMaze(maze) {
     return false;
   }
 
-  //printSolution(sol);
-  //runMazeGame(sol);
   return true;
 }
-/* A recursive utility function to solve Maze
-    problem */
+
 function solveMazeUtil(maze, x, y, soln) {
-  // if (x, y is goal) return true
   if (x == N - 1 && y == N - 1 && maze[x][y] == 1) {
     soln[x][y] = 1;
     return true;
   }
 
-  // Check if maze[x][y] is valid
   if (isSafe(maze, x, y) == true) {
-    // Check if the current block is already part of solution path.
     if (soln[x][y] == 1) return false;
 
-    // mark x, y as part of solution path
     soln[x][y] = 1;
 
-    /* Move forward in x direction */
     if (solveMazeUtil(maze, x + 1, y, soln)) return true;
 
-    /* If moving in x direction doesn't give
-            solution then Move down in y direction */
     if (solveMazeUtil(maze, x, y + 1, soln)) return true;
 
-    /* If moving in y direction doesn't give
-            solution then Move backwards in x direction */
     if (solveMazeUtil(maze, x - 1, y, soln)) return true;
 
-    /* If moving backwards in x direction doesn't give
-            solution then Move upwards in y direction */
     if (solveMazeUtil(maze, x, y - 1, soln)) return true;
 
-    /* If none of the above movements works then
-            BACKTRACK: unmark x, y as part of solution
-            path */
     soln[x][y] = 0;
     return false;
   }
@@ -360,7 +334,7 @@ solveBtn.addEventListener("click", async () => {
   playBtn.setAttribute("disabled", "true");
   try {
     const result = await runMazeGame(sol);
-    alert(result);
+    setTimeout(() => alert(result), 1000);
   } catch (error) {
     alert(error);
   }
